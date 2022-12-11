@@ -3,10 +3,10 @@ from model.Constants import PRESS_ENTER_TO_CONTINUE
 
 class MenuConsole(WindowsOS):
     def show(self, message):
-        if isinstance(message, list):
+        if isinstance(message, list) or isinstance(message, tuple):
             for m in message:
                 self.__printData(m)
-        elif len(message):
+        elif message:
             self.__printData(message)
         
     def clearAndShow(self, userName, appName, year ):
@@ -21,6 +21,11 @@ class MenuConsole(WindowsOS):
     
     def __printData(self, *data):
         for d in data:
-            if not d is None:
-                if len(d):
-                    print(d.capitalize())
+            if isinstance(d, str):
+                print(str(d).capitalize())
+            elif isinstance(d,dict):
+                for i in d:
+                    print(str(d[i]).capitalize())
+            else:
+                for i in d:
+                    print(str(i).capitalize())

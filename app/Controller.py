@@ -1,7 +1,7 @@
 from app.MenuController import MenuController
 from app.ActionHandlerController import ActionHandlerController
 from database.SQL3 import SQL3
-from model.Constants import INPUTS
+from model.Constants import EXIT_INPUTS
 
 class Controller(ActionHandlerController):
     __userInput=''
@@ -23,8 +23,8 @@ class Controller(ActionHandlerController):
         self.__menu.installMessage([responseTables, responseUser])
     
     def run(self):
-        while not self.__userInput in INPUTS["exit"]:
-            response = self.runAction(self.__userInput)
+        while not self.__userInput in EXIT_INPUTS:
+            response = self.runAction(self.__sql3, self.__userInput)
             self.__runMenu(response, self.__userName)
         
         self.__exit()

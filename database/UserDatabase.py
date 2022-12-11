@@ -1,6 +1,6 @@
 from database.Database import Database
 from model.Constants import DB_USER_TABLE
-from model.Constants import DB_USER_TABLE_ROWS
+from model.Constants import DB_USER_TABLE_COLUMNS
 from model.Constants import INSERT_NAME, USER_NAME_SUCCESS
 from model.Constants import DB_TABLE_CREATED
 
@@ -10,7 +10,7 @@ class UserDatabase(Database):
         
     def table(self):
         if not self.tableExists(DB_USER_TABLE):
-            self.createTable(DB_USER_TABLE, DB_USER_TABLE_ROWS)
+            self.createTable(DB_USER_TABLE, DB_USER_TABLE_COLUMNS)
             return f"{DB_USER_TABLE} {DB_TABLE_CREATED}"
             
     def add(self, name):

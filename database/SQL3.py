@@ -2,15 +2,22 @@ import sqlite3 as sql3
 from model.Constants import DB_NAME, DB_PATH
 from database.AccountDatabase import AccountDatabase
 from database.UserDatabase import UserDatabase
+from database.SpendsDatabase import SpendsDatabase
+from database.Query import Query
 
 class SQL3:
+    
     def __init__(self):
         self.__connection = sql3.connect(DB_PATH + DB_NAME)
         self.__database = {
             "user" : UserDatabase(self.__connection),
-            "account": AccountDatabase(self.__connection)
+            "account": AccountDatabase(self.__connection),
+            "spends": SpendsDatabase(self.__connection)
         }
-        
+    
+    def getQuery(self, query, data):
+        return Query(self.__connection, query, data)
+    
     def getDatabase(self, key):
         return self.__database[key]
     
