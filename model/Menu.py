@@ -1,8 +1,19 @@
 from model.Constants import APP_NAME
+import datetime
 
-class Menu:
-    def __init__(self):
-        self.__appName = APP_NAME
+class Menu():
+    __title = ''
+    __isHelp = ''
+    
+    def setTitle(self, user):
+        year = str(datetime.datetime.now().year)
+        self.__title = f"{APP_NAME} {year} - {user}"
         
-    def getAppName(self):
-        return self.__appName
+    def getTitle(self):
+        return self.__title
+    
+    def setIsHelp(self, isHelp):
+        self.__isHelp = isHelp
+        
+    def isHelp(self):
+        return self.__isHelp

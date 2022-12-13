@@ -1,61 +1,124 @@
 APP_NAME = "Contabilidad"
 DB_NAME = "contabilidad"
 DB_PATH = "database/"
-EXIT_INPUTS = ["x", "q"]
+
+EXIT_INPUTS = ["x", "q", "exit", "quit"]
+HELP_INPUTS = ["h", "help"]
+ACTIONS_INPUTS = ["la", "ls", "na", "ns"]
+CLEAR_INPUTS = ["c", "clear"]
+
 INSTALL_SUCCESS = "Application is ready to go."
 PRESS_ENTER_TO_CONTINUE = "Press Enter to continue..."
 INSERT_NAME = "Insert your name: "
 USER_NAME_SUCCESS = "User name was added."
 DB_TABLE_CREATED = "table created."
-DB_USER_TABLE = "user"
-DB_USER_TABLE_COLUMNS = "(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255))"
-DB_ACCOUNT_TABLE = "account"
-DB_ACCOUNT_TABLE_COLUMNS = "(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), amount INTEGER)"
-DB_SPENDS_TABLE = "spends"
-DB_SPENDS_TABLE_COLUMNS = "(id INTEGER PRIMARY KEY AUTOINCREMENT,accountId INTEGER, detail VARCHAR(255), amount INTEGER)"
 
+STRINGS = {
+    "space": " ",
+    "comma": ",",
+    "equals": "=",
+    "single_quotation": "'",
+    "open_parenthesis": "(",
+    "close_parenthesis": ")",
+    "hyphen": '-'
+}
+
+DB = {
+    
+    "path": "database/",
+    "name": "contabilidad",
+    "tables": {
+        "user": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "primarykey": True,
+                    "autoincrement": True
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "limit": 255
+                },
+            ]
+        },
+        "account": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "primarykey": True,
+                    "autoincrement": True
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "limit": 255
+                },
+                {
+                    "name": "amount",
+                    "type": "INTEGER"
+                }
+            ]
+        },
+        "spends": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "primarykey": True,
+                    "autoincrement": True
+                },
+                {
+                    "name": "accountId",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "detail",
+                    "type": "VARCHAR",
+                    "limit": 255
+                },
+                {
+                    "name": "amount",
+                    "type": "INTEGER"
+                }
+            ]
+        }
+    }    
+}
 
 ACTIONS = {
     "na": {
-        "query": "insert",
+        "query": "INSERT",
         "data": {
-            "table": DB_ACCOUNT_TABLE,
+            "table": "account",
             "columns": ["name", "amount"]
         }
     },
     "ns": {
-        "query": "insert",
+        "query": "INSERT",
         "data": {
-            "table": DB_SPENDS_TABLE,
+            "table": "spends",
             "columns": ["accountId", "detail", "amount"]
         }
     },
     "la": {
-        "query": "select",
+        "query": "SELECT",
         "data": {
-            "table": DB_ACCOUNT_TABLE,
-            "columns": ["id", "name", "amount"]
+            "table": "account",
+            "columns": ["*"]
         }
     },
     "ls": {
-        "query": "select",
+        "query": "SELECT",
         "data": {
-            "table": DB_SPENDS_TABLE,
-            "columns": ["id","accountId", "detail", "amount"]
+            "table": "spends",
+            "columns": ["*"]
         }
-    },
-    "h": """(na) New account - (x,q) Exit - (ns) New spend - (la) List accounts
+    }
+}
+
+
+HELP = """(na) New account - (x,q) Exit - (ns) New spend - (la) List accounts
 (ls) List spends"""
-}
-
-
-QUERIES = {
-    "insert": "INSERT INTO $table$ ($columns$) VALUES ($values$)",
-    "select": "SELECT $columns$ FROM $table$"
-}
-
-MODIFIERS = {
-    "table": "$table$",
-    "columns": "$columns$",
-    "values": "$values$"
-}
