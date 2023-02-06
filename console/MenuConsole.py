@@ -1,48 +1,35 @@
 from console.WindowsOS import WindowsOS
-from model.Constants import PRESS_ENTER_TO_CONTINUE, HELP
+from model.Constants import PRESS_ENTER_TO_CONTINUE
 class MenuConsole(WindowsOS):
-    def __init__(self, model):
-        self.__model = model
+    def __init__(self, menu):
+        self.__header = menu.getHeader()
+        self.__isHelpEnabled = menu.isHelpEnabled()
+        self.__helpText = menu.getHelp()
     
     def close(self):
         self.clearConsole()
     
-    def __clear(self):
-        self.clearConsole()
-        self.__showTitle()
-        if self.__model.isHelp():
-            self.__print(HELP)
-        
-    def __showTitle(self):
-        self.__print(self.__model.getTitle())
-    
-    def __wait(self):
+    def showHeader(self):
+        self.render(self.__header)
+
+    def showHelp(self):
+        self.render(self.__helpText)
+
+    def showMessages(self, *messages):
+        for message in messages:
+            self.render(message)
+
+    def showPressEnterMessage(self):
         input(PRESS_ENTER_TO_CONTINUE)
-        self.__clear()
-    
-    def __print(self, data):
-        if isinstance(data, str):
-            print(data.capitalize())
-        elif isinstance(data, dict):
-            for item in data.items():
-                print(str(item).capitalize())
-        elif isinstance(data, list) or isinstance(data, tuple):
-            for item in data:
-                print(str(item).capitalize())
-        else:
-            print(str(data).capitalize())
-            
-    def update(self, *messages):
-        self.__clear()
-            
-        if messages:
-            isMessage = True
-            for message in messages:
-                if not message is None:
-                    if len(message):
-                        self.__print(message)
-                    else:
-                        isMessage = False
-            
-            if isMessage:
-                self.__wait()
+
+    def refresh(self, *messages):
+        self.clearConsole()
+        self.showHeader()
+        if any(messages):
+            self.showMessages(messages)
+            self.showPressEnterMessage()
+        if  self.__isHelpEnabled:
+            self.showHelp()
+
+    def render(self, data):
+        print(data)
